@@ -1,0 +1,18 @@
+(defwindow power_menu
+	:monitor 0
+	:geometry (geometry :x "2%"
+			:y "4%"
+			:height "10%"
+			:width "20%"
+			:anchor "bottom right")
+			:stacking "bg"
+	(box :class "power_menu" :orientation "h"
+	(button :onclick `loginctl terminate-session $XDG_SESSION_ID` :class "btn"
+	(label :text "󰍃" :class "txt"))
+	(button :onclick `../eww/scripts/hypr.sh` :class "btn"
+	(label :text "" :class "txt"))
+	(button :onclick `reboot` :class "btn"
+	(label :text "󰜉" :class "txt"))
+	(button :onclick `shutdown now` :class "btn"
+	(label :text "󰐥" :class "txt"))
+	))

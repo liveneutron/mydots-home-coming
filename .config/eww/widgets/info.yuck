@@ -1,0 +1,138 @@
+;;Variables
+
+(defpoll time :interval "1s"
+              :initial "initial-value"  
+  `date "+%I:%M:%S"`)
+
+(defpoll date :interval "1s"
+              :initial "initial-value"  
+  `date "+%d-%b,%a"`)
+
+(defpoll wifi :interval "1s"
+	:initial "N/A"
+	`nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2`)
+
+(defpoll RX :interval "1s"
+	:initial "N/A"
+	`awk '/wlp3s0/ {printf "%.3f MB", $2/1024/1024}' /proc/net/dev`)
+ 
+(defpoll TX :interval "1s"
+	:initial "N/A"
+	`awk '/wlp3s0/ {printf "%.3f MB", $10/1024/1024}' /proc/net/dev`)
+
+(defpoll Total :interval "1s"
+	:initial "N/A"
+	`awk '/wlp3s0/ {total = ($2 + $10) / 1024 / 1024; printf "%.3f MB", total}' /proc/net/dev`)
+(defpoll os :interval "10h"
+	`uname -o`)
+
+(defpoll distro :interval "10h"
+	`uname -n`)
+
+(defpoll kernel :interval "10h"
+	`uname -r`)
+
+(defpoll wm :interval "10h"
+	`echo $XDG_CURRENT_DESKTOP`)
+
+(defpoll cpu :interval "1s"
+	`top -bn1 | grep "Cpu(s)" | awk '{printf "%.1f%%", 100 - $8}'`)
+
+(defpoll ram :interval "1s"
+	`free -h | awk '/Mem:/ {print $3 "/" $2}'`)
+
+(defpoll disk :interval "10m"
+	`df -h --total | awk '/^total/ {print $3 "/" $2}'`)
+
+(defpoll uptime :interval "1m"
+	`awk '{print int($1/3600) "." int(($1%3600)/60) " hrs"}' /proc/uptime`)
+
+(defpoll battery :interval "1m"
+	`echo "$(cat /sys/class/power_supply/BAT*/capacity)%"`)
+
+(defpoll pacman :interval "999h"
+	`echo "$(pacman -Q | wc -l)($(pacman -Qe | wc -l))"`)
+;;Windows
+
+(defwindow info
+           :monitor 0
+           :geometry (geometry :x "2%"
+                               :width "25%"
+                               :height "60%"
+                               :anchor "center left")
+           :stacking "bg"
+	(box :class "info" :orientation "V" :space-evenly false 
+	(time)
+	(OS)
+	(wifi)
+	(hardware)
+	(misc)
+	))
+
+
+;;Widgets
+
+(defwidget time []
+	(box :class "date-time"  :orientation "V" :space-evenly false 
+	(label :class "time" :class "time" :text time)
+	(label :class "date" :text date)))
+
+(defwidget OS []
+	(box :class "os" :orientation "h" :valign "start"
+	(box :orientation "V" :space-evenly false
+	(label :text "OS" :xalign 0)
+	(label :text "Distro" :xalign 0)
+	(label :text "Kernel" :xalign 0)
+	(label :text "WM" :xalign 0)
+	(label :text "Uptime" :xalign 0)
+	(button :onclick `~/eww/target/release/./eww poll pacman`
+	(label :text "Pacman" :xalign 0)))
+
+
+	(box :orientation "V" :space-evenly false
+	(label :text os :xalign 1)
+	(label :text distro :xalign 1)
+	(label :text kernel :xalign 1)
+	(label :text wm :xalign 1)
+	(label :text uptime :xalign 1)
+	(label :text pacman :xalign 1))
+))
+
+(defwidget wifi [] 
+	(box :class "wifi" :orientation "h" :valign "start"
+	(box :orientation "V" :space-evenly false
+	(label :text "Wifi" :xalign 0)
+	(label :text "RX" :xalign 0) 
+	(label :text "TX" :xalign 0) 
+	(label :text "Total" :xalign 0))
+	
+	(box :orientation "V" :space-evenly false
+	(label :text wifi :xalign 1)
+	(label :text RX :xalign 1) 
+	(label :text TX :xalign 1) 
+	(label :text Total :xalign 1))
+))
+
+(defwidget hardware []
+	(box :class "hardware" :orientation "h" :valign "start"
+	(box :orientation "V" :space-evenly false
+	(label :text "CPU" :xalign 0)
+	(label :text "Ram" :xalign 0)
+	(label :text "Disk" :xalign 0))
+
+
+	(box :orientation "V" :space-evenly false
+	(label :text cpu :xalign 1)
+	(label :text ram :xalign 1)
+	(label :text disk :xalign 1))
+))
+
+(defwidget misc []
+	(box :class "misc" :orientation "h" :valign "start"
+	(box :orientation "V" :space-evenly false
+	(label :text "Battery" :xalign 0))
+
+	(box :orientation "V" :space-evenly false
+	(label :text battery :xalign 1))
+
+))

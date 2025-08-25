@@ -1,0 +1,44 @@
+*{
+all:unset;
+margin: 0;
+padding: 3 0 0;
+}
+
+.info {
+background-color: rgba(black, .4);
+color: rgba(lightgrey, .8);
+}
+
+.time {
+padding: 50 20 0;
+font-size: 50;
+}
+
+.date-time {
+padding: 0 0 30;
+}
+
+.os {
+border-top:2px dotted rgba(lightgrey, .8);
+padding: 0 40 30;
+margin: 0 30 0;
+}
+.wifi {
+border-top:2px dotted rgba(lightgrey, 0.8);
+padding: 0 40 30;
+margin: 0 30 0;
+}
+
+
+.hardware {
+border-top:2px dotted rgba(lightgrey, .8);
+border-bottom:2px dotted rgba(lightgrey, .8);
+padding: 0 40 30;
+margin: 0 30 0;
+}
+
+.misc {
+padding: 0 40 30;
+margin: 0 30 0;
+}
+

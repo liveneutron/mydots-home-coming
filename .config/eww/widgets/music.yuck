@@ -1,0 +1,11 @@
+(deflisten cava :initial "" `./scripts/cava.sh`)
+
+(defwindow music
+           :monitor 0
+           :geometry (geometry :x "50%"
+                               :y "10px"
+                               :width "20px"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "bg"
+	(label :class "cava" :text cava ))

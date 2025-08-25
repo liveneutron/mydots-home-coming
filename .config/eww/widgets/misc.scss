@@ -1,0 +1,16 @@
+.misc_btn {
+background-color: rgba($background, .6);
+margin: 0;
+padding: 0;
+}
+.mbtn {
+padding: 0;
+font-size: 40px;
+color: $color5;
+border: 2px dotted $color5;
+margin: 5px;
+}
+.mbtn:hover {
+border: 2px solid $color6;
+color: $color6;
+}

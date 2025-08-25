@@ -1,0 +1,20 @@
+(defvar term "kitty nmtui")
+(defvar file "kitty ranger")
+
+(defwindow misc_btn
+	:monitor 0
+	:geometry (geometry :x "0%"
+			:height "40%"
+			:width "70px"
+			:anchor "top right")
+			:stacking "bg"
+	(box :class "misc_btn" :orientation "V"
+	(button :onclick `${term} &` :class "mbtn"
+	(label :text "󰖩" :class "txt"))
+	(button :onclick `scripts/fullshort.sh` :class "mbtn"
+	(label :text "" :class "txt"))
+	(button :onclick `scripts/cropshot.sh` :class "mbtn"
+	(label :text "" :class "txt"))
+	(button :onclick `shutdown now` :class "mbtn"
+	(label :text "󰐥" :class "txt"))
+	))
